@@ -72,7 +72,7 @@ export const paymentApi = {
         channel: 'Web',
         origin: window.location.origin,
         additionalData: { allow3DS2: true },
-        returnUrl: `${window.location.origin}resultpage/?order=${this.uuid}`,
+        returnUrl: `${window.location.origin}/resultpage/?order=${this.uuid}`,
       },
     })
   },
