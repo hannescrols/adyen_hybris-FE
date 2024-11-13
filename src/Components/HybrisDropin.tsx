@@ -45,9 +45,8 @@ export default function HybrisDropin({
         location.href =
           type === 'payment'
             ? `${location.origin}tickets/?resultCode=${res.resultCode}`
-            : `${
-                location.href.split('?')[0]
-              }?link_payment_state=result&resultCode=${res.resultCode}`
+            : `${location.href.split('?')[0]
+            }?link_payment_state=result&resultCode=${res.resultCode}`
       }
     },
     [type],
@@ -104,14 +103,14 @@ export default function HybrisDropin({
   )
 
   const setupDropin = React.useCallback(async () => {
-    
+
     dropinRef.current = await createDropin({
       locale: 'en',
       clientKey: process.env.NEXT_PUBLIC_ADYEN_CLIENT_KEY,
       environment: process.env.NEXT_PUBLIC_ADYEN_ENVIRONMENT,
       onAdditionalDetails: handleOnAdditionalDetails,
       onSubmit: handleOnSubmit,
-      paymentMethodsResponse: await api[type].getPaymentMethods(),
+      paymentMethodsResponse: await api[type].getPaymentMethods(cartId),
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,

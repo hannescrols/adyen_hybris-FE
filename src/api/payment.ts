@@ -35,10 +35,10 @@ export const paymentApi = {
       body: order,
     })
   },
-  async getPaymentMethods() {
+  async getPaymentMethods(cartId: string) {
     return apiClient({
       action: 'pay',
-      path: `${this.uuid}/payment-methods/`,
+      path: `${cartId}/payment-methods/`,
       method: 'GET',
     })
   },
