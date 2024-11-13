@@ -2,40 +2,44 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Method } from 'axios'
 
 import { decodeObjectValues } from '../../../../utils/encoding.utils'
-import { testPaymentMethods } from '../../../../../testData/paymentMethods'
-import {ADYEN_MERCH_ACCOUNT, USER_ID} from "../../../../constants";
-import {getSAPClient} from "../../../../api/sap.axios";
+import { ADYEN_MERCH_ACCOUNT, USER_ID } from "../../../../constants";
+import { getSAPClient } from "../../../../api/sap.axios";
+import { getAuthToken } from 'utils/auth.utils';
 interface Options {
   url: string
   method?: Method
   data?: { [key: string]: unknown }
+  headers?: { [key: string]: string }
 }
 
 export default async function apiPaymentPay(
-    req: NextApiRequest,
-    res: NextApiResponse,
+  req: NextApiRequest,
+  res: NextApiResponse,
 ): Promise<void> {
   const body = req.body || null
   const { path } = req.query
   const [endPath] = path
-  const customer = {  id: 'customer-id' }
+  const customer = { id: 'customer-id' }
+  const accessToken = await getAuthToken()
   console.log('endPath', endPath)
-  console.log(process.env.API_BASE_URL)
-  console.log({ body })
+  console.log('body', { body })
 
   const basePath = ``
   const options: Options = {
     url: '',
     method: req.method as Method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    }
   }
   switch (endPath) {
     case 'payment-methods':
-      options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${body.cartId}/adyen/checkout-configuration`
-      options.data = {
+      options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${body.cartId.code}/adyen/checkout-configuration`
+      /*options.data = {
         countryCode: 'BE',
         blockedPaymentMethods: ['ideal'],
         merchantAccount: ADYEN_MERCH_ACCOUNT,
-      }
+      }*/
       break
     case 'stored-payment-methods':
       options.url = `paymentMethods`
@@ -61,8 +65,8 @@ export default async function apiPaymentPay(
       options.url = `payments/details`
       options.data = body
       break
-    case 'couple': {
-      options.url = `/payments`
+    case 'payment': {
+      options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${body.cartId}/adyen/place-order`
       options.data = {
         ...body,
         storePaymentMethod: true,
@@ -86,14 +90,3 @@ export default async function apiPaymentPay(
   const { data } = await getSAPClient()(options)
   res.json(data)
 }
-
-
-/*const productClient = getProductClient()
-try {
-    const data = await productClient.get('/products')
-res.json(data)
-}
-catch (e) {
-    console.error(e)
-    throw e
-}*/

@@ -9,11 +9,9 @@ export default async function apiCartCreate(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    console.log('start')
     const sapClient = await getSAPClient()
-    
     const accessToken = await getAuthToken()
-    
+
     try {
         const response = await sapClient.post(`/occ/v2/dlpo/users/${USER_ID}/carts`, {}, {
             headers: {
@@ -24,6 +22,5 @@ export default async function apiCartCreate(
     }
     catch (error) {
         console.log('API ERROR', error)
-        throw error
     }
 }

@@ -3,93 +3,95 @@ import { Method } from 'axios'
 
 import { decodeObjectValues } from '../../../../utils/encoding.utils'
 import { testPaymentMethods } from '../../../../../testData/paymentMethods'
+import { getAuthToken } from 'utils/auth.utils'
 interface Options {
-    url: string
-    method?: Method
-    data?: { [key: string]: unknown }
-  }
+  url: string
+  method?: Method
+  data?: { [key: string]: unknown }
+}
 
 export default async function apiPaymentCouple(
-    req: NextApiRequest,
-    res: NextApiResponse,
-  ): Promise<void> {
-    const body = req.body || null
-    const { path } = req.query
-    const [endPath] = path
-    const customer = {  id: 'customer-id' }
-    console.log('endPath', endPath)
-    console.log(process.env.API_BASE_URL)
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<void> {
+  const body = req.body || null
+  const { path } = req.query
+  const [endPath] = path
+  const customer = { id: 'customer-id' }
+  const accessToken = await getAuthToken()
+  console.log('endPath', endPath)
+  console.log(process.env.API_BASE_URL)
 
-    const basePath = ``
-    const options: Options = {
-      url: '',
-      method: req.method as Method,
-    }
-    switch (endPath) {
-        case 'payment-methods':
-        options.url = `paymentMethods`
-        options.data = {
-          countryCode: 'BE',
-          blockedPaymentMethods: ['ideal'],
-          merchantAccount: 'WEB',
-        }
-        break
-      case 'stored-payment-methods':
-        options.url = `paymentMethods`
-        options.data = {
-          merchantAccount: 'WEB',
-          shopperReference: customer.id,
-        }
-        break
-      case 'additional-details': {
-        options.url = `payments/details`
-        options.data = { ...body }
-
-        if (body?.browserInfo) {
-          options.data.browserInfo = decodeObjectValues(body.browserInfo)
-        }
-        if (body?.paymentMethod) {
-          options.data.paymentMethod = decodeObjectValues(body.paymentMethod)
-        }
-
-        break
+  const basePath = ``
+  const options: Options = {
+    url: '',
+    method: req.method as Method,
+  }
+  switch (endPath) {
+    case 'payment-methods':
+      options.url = `paymentMethods`
+      options.data = {
+        countryCode: 'BE',
+        blockedPaymentMethods: ['ideal'],
+        merchantAccount: 'WEB',
       }
-      case 'redirect':
-        options.url = `payments/details`
-        options.data = body
-        break
-      case 'couple': {
-        options.url = `/payments`
-        options.data = {
-          ...body,
-          storePaymentMethod: true,
-          shopperStatement: 'Koppeling betaalmiddel',
-          shopperReference: customer.id,
-          merchantAccount: 'WEB',
-          amount: {
-            value: 0.0,
-            currency: 'EUR',
-          },
-          browserInfo: decodeObjectValues(body.browserInfo),
-          paymentMethod: decodeObjectValues(body.paymentMethod),
-          returnUrl: body.returnUrl,
-        }
-        break
+      break
+    case 'stored-payment-methods':
+      options.url = `paymentMethods`
+      options.data = {
+        merchantAccount: 'WEB',
+        shopperReference: customer.id,
       }
-      default:
-        options.url = `${basePath}/${endPath}`
-        options.data = body
+      break
+    case 'additional-details': {
+      options.url = `payments/details`
+      options.data = { ...body }
+
+      if (body?.browserInfo) {
+        options.data.browserInfo = decodeObjectValues(body.browserInfo)
+      }
+      if (body?.paymentMethod) {
+        options.data.paymentMethod = decodeObjectValues(body.paymentMethod)
+      }
+
+      break
     }
-    res.json(testPaymentMethods)
+    case 'redirect':
+      options.url = `payments/details`
+      options.data = body
+      break
+    case 'couple': {
+      options.url = `/payments`
+      options.data = {
+        ...body,
+        storePaymentMethod: true,
+        shopperStatement: 'Koppeling betaalmiddel',
+        shopperReference: customer.id,
+        merchantAccount: 'WEB',
+        amount: {
+          value: 0.0,
+          currency: 'EUR',
+        },
+        browserInfo: decodeObjectValues(body.browserInfo),
+        paymentMethod: decodeObjectValues(body.paymentMethod),
+        returnUrl: body.returnUrl,
+      }
+      break
     }
+    default:
+      options.url = `${basePath}/${endPath}`
+      options.data = body
+  }
+  res.json(testPaymentMethods)
+}
 
 
-    /*const productClient = getProductClient()
-    try {
-        const data = await productClient.get('/products')
-    res.json(data)
-    }
-    catch (e) {
-        console.error(e)
-        throw e
-    }*/
+/*const productClient = getProductClient()
+try {
+    const data = await productClient.get('/products')
+res.json(data)
+}
+catch (e) {
+    console.error(e)
+    throw e
+}*/

@@ -12,8 +12,7 @@ export default async function apiCartCreate(
     const { cartId } = req.body
     const sapClient = await getSAPClient()
     const accessToken = await getAuthToken()
-    console.log('${USER_ID}',USER_ID);
-    console.log('${cartId}',cartId.code);
+
     try {
         const response = await sapClient.post(
             `occ/v2/dlpo/users/${USER_ID}/carts/${cartId.code}/entries`,
@@ -42,6 +41,5 @@ export default async function apiCartCreate(
     }
     catch (error) {
         console.log('API ERROR', error)
-        throw error
     }
 }

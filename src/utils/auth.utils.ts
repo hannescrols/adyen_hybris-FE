@@ -10,13 +10,6 @@ export async function getAuthToken(
     urlEncodedData.append('client_id', 'bffCommConnectivityUser')
     urlEncodedData.append('client_secret', 'h[abt083|nv9[')
     const authResponse = await sapClient.post(`/authorizationserver/oauth/token?${urlEncodedData.toString()}`, {}, {})
-    // const body = {
-    //     grant_type: 'client_credentials',
-    //     client_id: 'bffCommConnectivityUser',
-    //     client_secret: 'h[abt083|nv9['
-    // }
-    // const authResponse = await sapClient.post('/authorizationserver/oauth/token', body, {})
-    console.log('authResponse', authResponse)
     return authResponse.data.access_token
 }
 
