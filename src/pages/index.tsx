@@ -5,8 +5,8 @@ import HybrisDropin from 'Components/HybrisDropin'
 import orderApi from "../api/order";
 
 export default function HomePage({ cartId, addResponse }: { cartId: string, addResponse: any }) {
-    console.log({ cartId })
-    console.log({ addResponse })
+    console.log('create cart response ',{ cartId })
+    console.log('add to cart  response ',{ addResponse })
 
     return (
         <div className='w-full max-w-[800px] mx-20'>
@@ -22,7 +22,8 @@ export async function getServerSideProps() {
     return {
         props: {
             cartId,
-            addResponse,
+           addResponse,
+       
         }
     }
 }

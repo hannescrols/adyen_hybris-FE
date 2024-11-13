@@ -11,11 +11,11 @@ export default async function apiCartCreate(
 ): Promise<void> {
     console.log('start')
     const sapClient = await getSAPClient()
-    console.log('sapClient', sapClient)
+    
     const accessToken = await getAuthToken()
-    console.log('accessToken', accessToken)
+    
     try {
-        const response = await sapClient.post(`/occ/v2/users/${USER_ID}/carts`, {}, {
+        const response = await sapClient.post(`/occ/v2/dlpo/users/${USER_ID}/carts`, {}, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },

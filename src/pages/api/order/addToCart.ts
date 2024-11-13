@@ -12,16 +12,18 @@ export default async function apiCartCreate(
     const { cartId } = req.body
     const sapClient = await getSAPClient()
     const accessToken = await getAuthToken()
+    console.log('${USER_ID}',USER_ID);
+    console.log('${cartId}',cartId.code);
     try {
         const response = await sapClient.post(
-            `occ/v2/dlpo/users/${USER_ID}/carts/${cartId}/entries`,
+            `occ/v2/dlpo/users/${USER_ID}/carts/${cartId.code}/entries`,
             {
                 "quantity": 1,
                 "product": {
                     "code": "000000000000003100"
                 },
                 "traveller": {
-                    "uid": "{{user_id}}"
+                    "uid": `${USER_ID}`
                 },
                 "productCharacteristics": [
                     {

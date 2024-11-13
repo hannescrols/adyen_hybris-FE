@@ -10,7 +10,7 @@ export function createSAPClient(): AxiosInstance {
   console.log('process.env.API_BASE_URL', process.env.API_BASE_URL)
   return createInstance({
     baseURL: `${process.env.API_BASE_URL}/`,
-  })
+  },{ rejectUnauthorized: false})
 }
 
 export function getSAPClient(): AxiosInstance {
