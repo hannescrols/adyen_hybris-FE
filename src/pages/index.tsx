@@ -21,7 +21,7 @@ export async function getServerSideProps() {
     const addResponse = await orderApi.addToCart(cartId)
     return {
         props: {
-            cartId,
+            cartId:cartId.code,
             addResponse,
 
         }

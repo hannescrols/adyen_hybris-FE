@@ -18,7 +18,7 @@ export default async function apiPaymentPay(
 ): Promise<void> {
   const body = req.body || null
   const { path } = req.query
-  const [endPath] = path
+  const [cartId,endPath] = path
   const customer = { id: 'customer-id' }
   const accessToken = await getAuthToken()
   console.log('endPath', endPath)
@@ -34,7 +34,7 @@ export default async function apiPaymentPay(
   }
   switch (endPath) {
     case 'payment-methods':
-      options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${body.cartId.code}/adyen/checkout-configuration`
+      options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${cartId}/adyen/checkout-configuration`
       /*options.data = {
         countryCode: 'BE',
         blockedPaymentMethods: ['ideal'],

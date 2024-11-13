@@ -5,5 +5,5 @@
   "/": "pages/index.js",
   "/api/order/createCart": "pages/api/order/createCart.js",
   "/api/order/addToCart": "pages/api/order/addToCart.js",
-  "/api/payment/couple/[...path]": "pages/api/payment/couple/[...path].js"
+  "/api/payment/pay/[...path]": "pages/api/payment/pay/[...path].js"
 }
