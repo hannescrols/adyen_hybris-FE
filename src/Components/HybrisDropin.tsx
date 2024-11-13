@@ -62,7 +62,7 @@ export default function HybrisDropin({
       if (payload.paymentMethod) {
         payload.paymentMethod = encodeObjectValues(payload.paymentMethod)
       }
-      const res = await api[type].postPayment(payload)
+      const res = await api[type].postPayment(cartId, payload)
       handlePaymentResponseAction(res, dropin)
     },
     [type, handlePaymentResponseAction],

@@ -63,10 +63,10 @@ export const paymentApi = {
     })
   },
   //@ts-ignore
-  async postPayment(payload) {
+  async postPayment(cartId, payload) {
     return apiClient({
       action: 'pay',
-      path: `${this.uuid}/payment/`,
+      path: `${cartId}/payment/`,
       body: {
         ...payload,
         channel: 'Web',

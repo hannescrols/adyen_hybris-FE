@@ -61,7 +61,7 @@ export default async function apiPaymentPay(
       options.data = body
       break
     case 'payment': {
-      options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${body.cartId}/adyen/place-order`
+      options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${cartId}/adyen/place-order`
       options.data = {
         ...body,
         storePaymentMethod: true,
