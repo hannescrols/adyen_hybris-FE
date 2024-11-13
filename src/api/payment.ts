@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
+import { mockPaymentMethodResponse } from '../../testData/paymentMethods';
 
 interface ApiClientArgs {
   path: string
@@ -36,11 +37,12 @@ export const paymentApi = {
     })
   },
   async getPaymentMethods(cartId: string) {
-    return apiClient({
+    return mockPaymentMethodResponse
+    /*return apiClient({
       action: 'pay',
       path: `${cartId}/payment-methods/`,
       method: 'GET',
-    })
+    })*/
   },
   async postAdditionalDetails(payload: unknown) {
     return apiClient({
