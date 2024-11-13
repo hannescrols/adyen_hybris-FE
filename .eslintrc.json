@@ -1,0 +1,116 @@
+{
+  "root": true,
+  "ignorePatterns": ["/scripts/*"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:sonarjs/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "sonarjs",    "jsx-a11y",
+    "jam3"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "."
+  },
+  "rules": {
+    "import/no-anonymous-default-export": "error",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "jam3/no-sanitizer-with-danger": [
+      "error",
+      { "wrapperName": ["sanitize", "sanitizer"] }
+    ],
+    "react/prop-types": "off",
+    "react-hooks/exhaustive-deps": "error",
+    "no-debugger": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "no-duplicate-imports": "error",
+    "jsx-a11y/no-redundant-roles": [
+      "error",
+      {
+        "aside": ["complementary"]
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 300,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignorePattern": "d=\"([\\s\\S]*?)\""
+      }
+    ],
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          ["builtin", "external"],
+          "internal",
+          ["parent", "sibling", "index"]
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "no-restricted-imports": "off",
+    "@typescript-eslint/no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "next-i18next",
+            "importNames": ["useTranslation"],
+            "message": "Use 'useTranslation' from Tedjo's translation hook src/hooks/useTranslation.tsx."
+          },
+          {
+            "name": "next/router",
+            "importNames": ["useRouter"],
+            "message": "Use 'useRouter' from Yanti's useRouter hook src/hooks/useRouter.tsx."
+          }
+        ]
+      }
+    ],
+    "sonarjs/cognitive-complexity": ["error", 15],
+    "no-restricted-syntax": [
+      "off",
+      {
+        "selector": "ExportNamedDeclaration > TSTypeAliasDeclaration",
+        "message": "Exporting TypeScript types is only allowed in certain file patterns"
+      },
+      {
+        "selector": "ExportNamedDeclaration > TSInterfaceDeclaration",
+        "message": "Exporting TypeScript interfaces is only allowed in certain file patterns"
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "off",
+      {
+        "fixStyle": "inline-type-imports",
+        "prefer": "type-imports"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**", "**test.data.ts"],
+      "rules": {
+        "sonarjs/no-duplicate-string": "off",
+        "sonarjs/no-identical-functions": "off"
+      }
+    },
+    {
+      "files": ["**/*.types.ts", "**/types/**"],
+      "rules": {
+        "no-restricted-syntax": "off"
+      }
+    }
+  ]
+}
