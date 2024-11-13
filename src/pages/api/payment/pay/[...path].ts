@@ -82,6 +82,8 @@ export default async function apiPaymentPay(
       options.url = `${basePath}/${endPath}`
       options.data = body
   }
+  console.log('url', options.url)
+  console.log('data', options.data)
   const { data } = await getSAPClient()(options)
   res.json(data)
 }
