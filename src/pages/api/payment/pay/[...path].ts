@@ -5,6 +5,7 @@ import { decodeObjectValues } from '../../../../utils/encoding.utils'
 import { ADYEN_MERCH_ACCOUNT, USER_ID } from "../../../../constants";
 import { getSAPClient } from "../../../../api/sap.axios";
 import { getAuthToken } from 'utils/auth.utils';
+import { browser } from 'process';
 interface Options {
   url: string
   method?: Method
@@ -62,7 +63,7 @@ export default async function apiPaymentPay(
       break
     case 'payment': {
       options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${cartId}/adyen/place-order`
-      options.data = {
+      /*options.data = {
         ...body,
         storePaymentMethod: true,
         shopperStatement: 'payment statement',
@@ -75,6 +76,21 @@ export default async function apiPaymentPay(
         browserInfo: decodeObjectValues(body.browserInfo),
         paymentMethod: decodeObjectValues(body.paymentMethod),
         returnUrl: body.returnUrl,
+      }*/
+      options.data = {
+        useAdyenDeliveryAddress: true,
+        paymentRequest: {
+          amount: {
+            value: 10.0,
+            currency: 'EUR',
+          },
+          reference: cartId,
+          paymentMethod: body.paymentMethod,
+          browserInfo: body.browserInfo,
+          returnUrl: body.returnUrl,
+          merchantAccount: ADYEN_MERCH_ACCOUNT,
+          shopperInteraction: 'Ecommerce',
+        }
       }
       break
     }
