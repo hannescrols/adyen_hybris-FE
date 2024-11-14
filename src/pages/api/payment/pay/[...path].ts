@@ -61,20 +61,6 @@ export default async function apiPaymentPay(
       break
     case 'payment': {
       options.url = `/occ/v2/dlpo/users/${USER_ID}/carts/${cartId}/adyen/place-order`
-      /*options.data = {
-        ...body,
-        storePaymentMethod: true,
-        shopperStatement: 'payment statement',
-        shopperReference: customer.id,
-        merchantAccount: ADYEN_MERCH_ACCOUNT,
-        amount: {
-          value: 10.0,
-          currency: 'EUR',
-        },
-        browserInfo: decodeObjectValues(body.browserInfo),
-        paymentMethod: decodeObjectValues(body.paymentMethod),
-        returnUrl: body.returnUrl,
-      }*/
       options.data = {
         useAdyenDeliveryAddress: true,
         paymentRequest: {

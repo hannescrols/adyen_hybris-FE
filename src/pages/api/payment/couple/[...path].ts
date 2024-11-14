@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Method } from 'axios'
 
 import { decodeObjectValues } from '../../../../utils/encoding.utils'
-import { testPaymentMethods } from '../../../../../testData/paymentMethods'
+import { getSAPClient } from "../../../../api/sap.axios";
 import { getAuthToken } from 'utils/auth.utils'
 interface Options {
   url: string
@@ -32,11 +32,6 @@ export default async function apiPaymentCouple(
   switch (endPath) {
     case 'payment-methods':
       options.url = `paymentMethods`
-      options.data = {
-        countryCode: 'BE',
-        blockedPaymentMethods: ['ideal'],
-        merchantAccount: 'WEB',
-      }
       break
     case 'stored-payment-methods':
       options.url = `paymentMethods`
@@ -84,16 +79,8 @@ export default async function apiPaymentCouple(
       options.url = `${basePath}/${endPath}`
       options.data = body
   }
-  res.json(testPaymentMethods)
+  console.log('url', options.url)
+  console.log('data', options.data)
+  const { data } = await getSAPClient()(options)
+  res.json(data)
 }
-
-
-/*const productClient = getProductClient()
-try {
-    const data = await productClient.get('/products')
-res.json(data)
-}
-catch (e) {
-    console.error(e)
-    throw e
-}*/

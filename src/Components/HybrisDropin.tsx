@@ -124,7 +124,7 @@ export default function HybrisDropin({
           holderNameRequired: true,
           name: 'bancontact',
         },
-        storedCard: { hideCVC: true },
+        storedCard: { hideCVC: false },
       },
       translations: {
         ['en']: translations,
