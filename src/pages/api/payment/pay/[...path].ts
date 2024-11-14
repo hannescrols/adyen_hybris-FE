@@ -22,8 +22,6 @@ export default async function apiPaymentPay(
   const [cartId, endPath] = path
   const customer = { id: 'customer-id' }
   const accessToken = await getAuthToken()
-  console.log('endPath', endPath)
-  console.log('body', { body })
 
   const basePath = ``
   const options: Options = {

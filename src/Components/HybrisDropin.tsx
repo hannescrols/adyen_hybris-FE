@@ -38,15 +38,17 @@ export default function HybrisDropin({
         }, 300)
         return
       }
+      console.log('res', res)
       if (res?.action) {
         dropin.handleAction(res.action)
       } else {
-        const { location } = window
+        console.log('href')
+        /*const { location } = window
         location.href =
           type === 'payment'
             ? `${location.origin}/tickets/?resultCode=${res.resultCode}`
             : `${location.href.split('?')[0]
-            }?link_payment_state=result&resultCode=${res.resultCode}`
+            }?link_payment_state=result&resultCode=${res.resultCode}`*/
       }
     },
     [type],
@@ -138,7 +140,6 @@ export default function HybrisDropin({
   ])
 
   React.useEffect(() => {
-    console.log('buildPhase.current', buildPhase.current)
     if (buildPhase.current === 'waiting') {
       setupDropin()
     }

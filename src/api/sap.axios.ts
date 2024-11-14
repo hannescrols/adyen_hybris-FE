@@ -7,10 +7,9 @@ type AgentType = https.Agent | HttpsAgent
 let sapClient: AxiosInstance
 
 export function createSAPClient(): AxiosInstance {
-  console.log('process.env.API_BASE_URL', process.env.API_BASE_URL)
   return createInstance({
     baseURL: `${process.env.API_BASE_URL}/`,
-  },{ rejectUnauthorized: false})
+  }, { rejectUnauthorized: false })
 }
 
 export function getSAPClient(): AxiosInstance {
@@ -23,16 +22,16 @@ export function getSAPClient(): AxiosInstance {
 }
 
 function createInstance(
-    axiosConfig: AxiosRequestConfig = { baseURL: '' },
-    agentOptions?: HttpsOptions,
-  ): AxiosInstance {
-    axiosConfig.timeout = axiosConfig.timeout || 19_000
-    axiosConfig.httpsAgent = createAgent(agentOptions)
-    return axios.create(axiosConfig)
-  }
+  axiosConfig: AxiosRequestConfig = { baseURL: '' },
+  agentOptions?: HttpsOptions,
+): AxiosInstance {
+  axiosConfig.timeout = axiosConfig.timeout || 19_000
+  axiosConfig.httpsAgent = createAgent(agentOptions)
+  return axios.create(axiosConfig)
+}
 
-  function createAgent({
-    ...otherOptions
-  }: HttpsOptions = {}): AgentType {  
-    return new https.Agent(otherOptions)
-  }
+function createAgent({
+  ...otherOptions
+}: HttpsOptions = {}): AgentType {
+  return new https.Agent(otherOptions)
+}

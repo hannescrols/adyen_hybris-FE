@@ -8,6 +8,7 @@ interface Options {
   url: string
   method?: Method
   data?: { [key: string]: unknown }
+  headers?: { [key: string]: string }
 }
 
 export default async function apiPaymentCouple(
@@ -19,13 +20,14 @@ export default async function apiPaymentCouple(
   const [endPath] = path
   const customer = { id: 'customer-id' }
   const accessToken = await getAuthToken()
-  console.log('endPath', endPath)
-  console.log(process.env.API_BASE_URL)
 
   const basePath = ``
   const options: Options = {
     url: '',
     method: req.method as Method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    }
   }
   switch (endPath) {
     case 'payment-methods':
