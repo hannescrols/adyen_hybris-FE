@@ -39,8 +39,8 @@ export default function HybrisDropin({
         return
       }
       console.log('res', res)
-      if (res?.action) {
-        dropin.handleAction(res.action)
+      if (res?.paymentsAction) {
+        dropin.handleAction(res.paymentsAction)
       } else {
         console.log('href')
         /*const { location } = window
