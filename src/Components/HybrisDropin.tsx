@@ -43,12 +43,12 @@ export default function HybrisDropin({
         dropin.handleAction(res.paymentsAction)
       } else {
         console.log('href')
-        const { location } = window
+        /*const { location } = window
         location.href =
           type === 'payment'
             ? `${location.origin}/tickets/?resultCode=${res.resultCode}`
             : `${location.href.split('?')[0]
-            }?link_payment_state=result&resultCode=${res.resultCode}`
+            }?link_payment_state=result&resultCode=${res.resultCode}`*/
       }
     },
     [type],
