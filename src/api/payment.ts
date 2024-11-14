@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
 import { mockPaymentMethodResponse } from '../../testData/paymentMethods';
+import { mapPaymentMethods } from 'mappers/paymentMethod.mapper';
 
 interface ApiClientArgs {
   path: string
@@ -37,12 +38,12 @@ export const paymentApi = {
     })
   },
   async getPaymentMethods(cartId: string) {
-    return mockPaymentMethodResponse
-    /*return apiClient({
+    const data = await apiClient({
       action: 'pay',
       path: `${cartId}/payment-methods/`,
       method: 'GET',
-    })*/
+    })
+    return mapPaymentMethods(data)
   },
   async postAdditionalDetails(payload: unknown) {
     return apiClient({

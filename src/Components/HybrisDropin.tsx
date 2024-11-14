@@ -44,7 +44,7 @@ export default function HybrisDropin({
         const { location } = window
         location.href =
           type === 'payment'
-            ? `${location.origin}tickets/?resultCode=${res.resultCode}`
+            ? `${location.origin}/tickets/?resultCode=${res.resultCode}`
             : `${location.href.split('?')[0]
             }?link_payment_state=result&resultCode=${res.resultCode}`
       }
